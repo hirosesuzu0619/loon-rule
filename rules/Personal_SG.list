@@ -1,0 +1,11 @@
+# NAME: Personal_SG
+# 个人规则中钉到新加坡出口的域名，配置里引用时策略为 SG。
+
+# —— 钱包 ——
+DOMAIN-SUFFIX,ethenapay-api.co
+
+# —— 第三方验证/风控 SDK（OKX 活动期间抓到，与 OKX 已有的新加坡出口保持一致）——
+# geetest 是独立的验证码厂商，非某个交易所自有；cloudauth-device 是阿里云实人认证，直连会在做身份核验时原样交出真实 IP
+# China.list 里有 aliyun 关键字直连，本文件排在它之前，cloudauth-device 才不会被带去直连
+DOMAIN-SUFFIX,geetest.com
+DOMAIN-SUFFIX,cloudauth-device.aliyuncs.com

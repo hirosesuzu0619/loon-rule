@@ -1,0 +1,13 @@
+#!name = 个人
+#!desc = 把 google.cn、g.cn 跳转到 www.google.com，跳转由 Loon 在本地直接返回，不经过任何节点。分流规则不在插件里：插件规则只能用 DIRECT、REJECT、PROXY，引用不到配置里的 US 等策略组，所以都放在 rules/ 目录，由配置文件的 [Remote Rule] 引用。
+#!author = hirosesuzu0619
+#!homepage = https://github.com/hirosesuzu0619/loon-rule
+
+[Rewrite]
+# 主机名后面必须紧跟 /、:、? 或到此结束：不加这一段时 g.cn.miaozhen.com 这类以 g.cn 开头的别家域名也会命中，9 月 30 日小红书的秒针广告统计请求就被跳到了 Google
+^https?:\/\/(www\.)?g\.cn([\/:?]|$) https://www.google.com 302
+^https?:\/\/(www\.)?google\.cn([\/:?]|$) https://www.google.com 302
+
+[Mitm]
+# 对 https 地址，不解密就看不到完整 URL，302 无法生效，所以要把这四个主机名加进解密列表；证书仍用设备上那份配置里生成的
+hostname = g.cn, www.g.cn, google.cn, www.google.cn

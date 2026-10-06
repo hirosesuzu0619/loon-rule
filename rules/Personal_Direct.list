@@ -1,0 +1,16 @@
+# NAME: Personal_Direct
+# 个人规则中需要直连的域名，配置里引用时策略为 DIRECT。
+# 排在 Personal_US.list 之前，与 Apple TV+ 共用的 play、bag 两个域名在这里先被直连接住。
+
+# —— Apple Music ——
+# 音乐走国内 CDN，直连最快。9 月 30 日的日志里音频流 aod 已是直连，但每首歌开播前的播放授权 play.itunes.apple.com 与服务端点配置 bag.itunes.apple.com 被 Apple TV 规则带去了美国2，播放记录上报 radio-activity 则落到 FINAL 的香港1
+# 一首歌要等美国2 取回授权才能开始解密播放，14:55 前后 play 在 35 秒内重连 5 次、14:59 的 bag 每 5 秒重连一次，开播慢、播放卡住就出在这里
+# play 与 bag 是 Apple Music 与 Apple TV+ 共用的域名，按域名无法区分 App，这里优先保证 Apple Music，统一直连
+DOMAIN,play.itunes.apple.com
+DOMAIN,bag.itunes.apple.com
+DOMAIN,aod.itunes.apple.com
+DOMAIN,streamingaudio.itunes.apple.com
+DOMAIN,mvod.itunes.apple.com
+DOMAIN,radio.itunes.apple.com
+DOMAIN,radio-activity.itunes.apple.com
+DOMAIN-SUFFIX,music.apple.com

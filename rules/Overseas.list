@@ -1,0 +1,59 @@
+# NAME: Overseas
+# 常用境外服务，配置里引用时策略为 EAST_ASIA。
+# 按域名直接走代理，不必先经国内 DNS 解析、再由 GEOIP 判断，省去每个新域名的一轮 DoH 查询
+# 刻意不引用第三方境外大名单：它们含 apple.com、icloud.com、microsoft.com、akamai 等，会把 iCloud、系统更新和国内也在用的 CDN 拉去走代理
+# X、AI 服务等已在 Personal_US.list 钉到 US，这里不再重复
+DOMAIN-KEYWORD,google
+DOMAIN-KEYWORD,gmail
+DOMAIN-KEYWORD,youtube
+DOMAIN-KEYWORD,facebook
+DOMAIN-KEYWORD,instagram
+DOMAIN-KEYWORD,whatsapp
+DOMAIN-KEYWORD,github
+DOMAIN-KEYWORD,blogspot
+DOMAIN-KEYWORD,dropbox
+DOMAIN-KEYWORD,wikipedia
+DOMAIN-KEYWORD,pinterest
+DOMAIN-KEYWORD,discord
+DOMAIN-KEYWORD,netflix
+DOMAIN-KEYWORD,spotify
+# Google 的静态资源、图片与下载域名不含 google 字样
+DOMAIN-SUFFIX,gstatic.com
+DOMAIN-SUFFIX,ggpht.com
+DOMAIN-SUFFIX,gvt1.com
+DOMAIN-SUFFIX,gvt2.com
+DOMAIN-SUFFIX,youtu.be
+DOMAIN-SUFFIX,ytimg.com
+DOMAIN-SUFFIX,fb.me
+DOMAIN-SUFFIX,fbcdn.net
+DOMAIN-SUFFIX,nflxvideo.net
+DOMAIN-SUFFIX,nflximg.net
+DOMAIN-SUFFIX,nflxext.com
+DOMAIN-SUFFIX,nflxso.net
+DOMAIN-SUFFIX,scdn.co
+DOMAIN-SUFFIX,amazon.com
+DOMAIN-SUFFIX,v2ex.com
+DOMAIN-SUFFIX,medium.com
+DOMAIN-SUFFIX,reddit.com
+DOMAIN-SUFFIX,redd.it
+DOMAIN-SUFFIX,redditmedia.com
+DOMAIN-SUFFIX,redditstatic.com
+DOMAIN-SUFFIX,imgur.com
+DOMAIN-SUFFIX,pixiv.net
+DOMAIN-SUFFIX,pximg.net
+DOMAIN-SUFFIX,nytimes.com
+DOMAIN-SUFFIX,nyt.com
+DOMAIN-SUFFIX,bbc.com
+DOMAIN-SUFFIX,bbc.co.uk
+DOMAIN-SUFFIX,bbci.co.uk
+DOMAIN-SUFFIX,steamcommunity.com
+DOMAIN-SUFFIX,twitch.tv
+DOMAIN-SUFFIX,vimeo.com
+DOMAIN-SUFFIX,tumblr.com
+DOMAIN-SUFFIX,linkedin.com
+DOMAIN-SUFFIX,licdn.com
+DOMAIN-SUFFIX,mega.nz
+DOMAIN-SUFFIX,archive.org
+DOMAIN-SUFFIX,wikimedia.org
+DOMAIN-SUFFIX,soundcloud.com
+DOMAIN-SUFFIX,duckduckgo.com
