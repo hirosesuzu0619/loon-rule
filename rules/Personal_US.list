@@ -1,0 +1,133 @@
+# NAME: Personal_US
+# 个人规则中钉到美国出口的域名，配置里引用时策略为 US。
+# 排在 China.list 与 Overseas.list 之前：graph.facebook.com、Gemini 的 Google 子域等要先在这里命中，否则会被 facebook、google 关键字带去 EAST_ASIA。
+
+# —— Siri 与 Apple 隐私中继 ——
+DOMAIN,guzzoni.apple.com
+DOMAIN,mask-api.fe.apple-dns.net
+DOMAIN,mask-api.icloud.com
+DOMAIN,mask-t.apple-dns.net
+DOMAIN,mask.apple-dns.net
+DOMAIN-SUFFIX,smoot.apple.com
+DOMAIN-SUFFIX,apple-relay.apple.com
+DOMAIN-SUFFIX,apple-relay.cloudflare.com
+DOMAIN-SUFFIX,apple-relay.fastly-edge.com
+DOMAIN-SUFFIX,apple-relay.mask.apple-dns.net
+DOMAIN-SUFFIX,cp4.cloudflare.com
+DOMAIN-SUFFIX,gspe1-ssl.ls.apple.com
+DOMAIN-SUFFIX,gateway.icloud.com
+DOMAIN-SUFFIX,ls.apple.com
+DOMAIN-SUFFIX,mask-h2.icloud.com
+DOMAIN-SUFFIX,mask.icloud.com
+DOMAIN-SUFFIX,apps.mzstatic.com
+# 关键字匹配，凡域名含 siri 都会命中，若出现误伤可改成更精确的写法
+DOMAIN-KEYWORD,siri
+
+# —— Apple TV App（Apple TV+）——
+# 此前没有专门规则，国内 DoH 解析到 Akamai 或 Apple 的国内节点后被 GEOIP,CN 直连，App 直连打不开
+# tv.apple.com 后缀涵盖主站与 vod-*.tv.apple.com 视频分片
+DOMAIN-SUFFIX,tv.apple.com
+DOMAIN,tv.applemusic.com
+# 片单目录、播放鉴权、播放进度同步；只列具体子域，不写 itunes.apple.com 整个后缀，以免牵动 App Store 下载与购买
+DOMAIN,uts-api.itunes.apple.com
+DOMAIN,play-edge.itunes.apple.com
+DOMAIN,np-edge.itunes.apple.com
+# HLS 播放清单与视频流
+DOMAIN,hls.itunes.apple.com
+DOMAIN,hls-amt.itunes.apple.com
+DOMAIN,hls-svod.itunes.apple.com
+DOMAIN,hls-svod-aoc.itunes.apple.com
+# 9 月 25 日播放时视频分片已走美国1，但同一会话里的其余接口分散在台湾2 和直连，出口不一致，视频加载不出来
+# amp-api.videos.apple.com 是视频内容接口，cma2、pd、bookkeeper（播放进度）此前都不在规则里
+# 播放鉴权 play 与服务端点配置 bag 与 Apple Music 共用，已放进 Personal_Direct.list 直连；若 Apple TV+ 再次加载不出来，先看这两个域名
+DOMAIN-SUFFIX,videos.apple.com
+DOMAIN,cma2.itunes.apple.com
+DOMAIN,pd.itunes.apple.com
+DOMAIN,bookkeeper.itunes.apple.com
+# 订阅权益校验走账号专属的 pNN-buy.itunes.apple.com，编号因账号而异，只能用关键字命中；App Store 的购买请求也会随之走 US，下载不受影响
+DOMAIN-KEYWORD,-buy.itunes.apple.com
+# 体育赛事比分与直播信息
+DOMAIN,sportskit-api.cdn-apple.com
+
+# —— Meta AI ——
+DOMAIN-SUFFIX,meta.ai
+DOMAIN-SUFFIX,meta.com
+# hatch.metaaivm.com 是 Meta AI 的后端，不在上面两个后缀之下，此前落到 FINAL 的台湾出口
+DOMAIN-SUFFIX,metaaivm.com
+# 10 月 1 日打开 Meta AI（Muse）时，hatch-api、graph.meta.ai 等都走了美国1，唯独 graph.facebook.com 被 facebook 关键字带去了香港1；它是 Meta 账号登录与数据上报的公共接口，出口需与 meta.ai 一致
+# Facebook、Instagram 等 Meta 系 App 发往这个域名的请求也会一并走 US
+DOMAIN,graph.facebook.com
+
+# —— Claude ——
+# Claude 的域名分散在 claude.ai、claude.com、claudeusercontent.com（artifact 内容）、claude.site（公开分享）、claudemcpcontent.com 等多个根域，按后缀逐个列容易漏，改用关键字统一命中
+# 代价是名字里带 claude 的其他网站也会走 US，目前没有发现常用的此类域名
+DOMAIN-KEYWORD,claude
+DOMAIN-SUFFIX,anthropic.com
+# Cloudflare 人机验证，出口需与 claude.ai 一致，否则容易反复弹验证；用精确匹配，避免牵动 apple-relay.cloudflare.com 等其他子域
+DOMAIN,challenges.cloudflare.com
+# statsig 特性开关平台，Claude 客户端启动时拉取
+DOMAIN-SUFFIX,statsig.com
+DOMAIN-SUFFIX,statsigapi.net
+DOMAIN-SUFFIX,featureassets.org
+# 遥测与风控上报：sift 按 IP 评估风险，需与主站同一出口
+# sentry.io、datadoghq 是多个 App 共用的公共服务，所有 App 发往这两处的上报都会走 US
+DOMAIN-SUFFIX,sentry.io
+# datadog 的浏览器上报域名按站点区分根域，如 browser-intake-us5-datadoghq.com，不在 datadoghq.com 之下，只能用关键字命中
+DOMAIN-KEYWORD,datadoghq
+DOMAIN-SUFFIX,siftscience.com
+
+# —— OpenAI ——
+# chatgpt.com 为主站与 App 接口，oaistatic/oaiusercontent 为静态资源与用户上传/生成的文件
+DOMAIN-SUFFIX,openai.com
+DOMAIN-SUFFIX,chatgpt.com
+DOMAIN-SUFFIX,oaistatic.com
+DOMAIN-SUFFIX,oaiusercontent.com
+DOMAIN-SUFFIX,sora.com
+
+# —— Gemini ——
+# 其余 Google 域名由 Overseas.list 的 google 关键字分到 EAST_ASIA，这里只挑出 Gemini 相关的子域，用精确匹配避免牵动其他 Google 服务
+DOMAIN,gemini.google.com
+DOMAIN-SUFFIX,gemini.google
+DOMAIN,aistudio.google.com
+DOMAIN,notebooklm.google.com
+DOMAIN,generativelanguage.googleapis.com
+DOMAIN,proactivebackend-pa.googleapis.com
+DOMAIN,alkalimakersuite-pa.clients6.google.com
+
+# —— Grok ——
+DOMAIN-SUFFIX,grok.com
+DOMAIN-SUFFIX,x.ai
+
+# —— X ——
+# 此前落在别的模块的「美国节点」组，会在美国1/美国4之间切换，走美国4时冷启动明显偏慢
+DOMAIN-SUFFIX,x.com
+DOMAIN-SUFFIX,twitter.com
+# twimg.com 是图片、视频与静态资源，t.co 是短链跳转
+DOMAIN-SUFFIX,twimg.com
+DOMAIN-SUFFIX,t.co
+
+# —— 希尔顿 ——
+# 会话里 App 的自有域名全部走 FINAL,DIRECT，等于用真实 IP 查房价、登录会员账号；酒店按来源地区做定价与会员政策，出口需与账号注册地一致
+# 埋点域 smetric.hilton.com 在 Personal_Reject.list 里先被屏蔽
+DOMAIN-SUFFIX,hilton.com
+# m.hilton.io 是 App 的主 API，hiltonapi.com 是订房/会员接口
+DOMAIN-SUFFIX,hilton.io
+DOMAIN-SUFFIX,hiltonapi.com
+# Conductrics A/B 分流接口，按 IP 决定给哪套页面；同域的 cdn-v3 子域另有去广告规则屏蔽，此处只放 API
+DOMAIN,api-hilton.conductrics.net
+# Clarip 是希尔顿页面加载的隐私同意管理 SDK，按 IP 判定适用法域
+DOMAIN,cdn.clarip.com
+# Rokt 是希尔顿确认页加载的优惠推送平台，会话里同样走了直连
+DOMAIN,apps.rokt-api.com
+
+# —— Kraken ——
+# 登录时段密集出现，此前落在别的模块的通用 PROXY 策略下、出口是台湾节点，与账号注册地不一致
+DOMAIN-SUFFIX,kraken.com
+# Kraken 专属的客服/帮助中心子域；zendesk.com 根域是公共客服平台，其他公司的子域不受影响
+DOMAIN,kraken.zendesk.com
+
+# —— Kalshi ——
+# mobile-api、api.elections、assets、social-assets 等子域此前全部落在 FINAL 兜底的台湾出口上
+DOMAIN-SUFFIX,kalshi.com
+# 另有几个自有素材桶挂在 amazonaws.com 下、名字是前缀而非后缀（kalshi-public-docs、kalshi-public-images），只能靠关键字命中
+DOMAIN-KEYWORD,kalshi

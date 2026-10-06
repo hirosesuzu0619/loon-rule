@@ -1,0 +1,48 @@
+# NAME: Personal_MEXC_TW
+# 交易所专用规则，配置里引用时策略为 MEXC_TW（只含单个台湾节点的 select 组，出口固定）。
+
+# —— MEXC ——
+# 交易所主域与镜像域
+DOMAIN-SUFFIX,mexc.com
+DOMAIN-SUFFIX,flytogarden.com
+DOMAIN-SUFFIX,hotbookzone.com
+DOMAIN-SUFFIX,greentreeone.com
+DOMAIN-SUFFIX,coldbookfly.ru
+DOMAIN-SUFFIX,dgshen.com
+# 自有监控与埋点：sentry 错误上报、watchman SDK、trochilus
+DOMAIN-SUFFIX,gotoda.co
+# 推送：EngageLab（极光海外版）的三套域名
+DOMAIN-SUFFIX,engagelab.cc
+DOMAIN-SUFFIX,theengagelab.com
+DOMAIN-SUFFIX,engage7.com
+DOMAIN-SUFFIX,engageforce.net
+DOMAIN-SUFFIX,ecbsn.com
+# 归因：AppsFlyer
+DOMAIN-SUFFIX,appsflyersdk.com
+# App 资源包下载
+DOMAIN,s3-app-release.s3.ap-northeast-1.amazonaws.com
+# 会话期间直连的两个域名：Google 的 ATT 分析域名，以及一台 OVH 法兰克福主机（来源未确认）
+DOMAIN-SUFFIX,app-analytics-services-att.com
+DOMAIN-SUFFIX,protectyouraccess.com
+# MEXC 自有资源域名：静态资源、配置下发与客户端安装包，此前 static 子域直连，真实地址等于直接交给交易所
+DOMAIN-SUFFIX,mocortech.com
+# 阿里云日志服务（新加坡）上的两个 MEXC 专用项目：App 日志与性能监控。只在 MEXC 运行时出现
+# 去广告规则里的 log.aliyuncs.com 会拦截它们，SDK 随后每 5 秒重试一次；没有去广告规则时又会被 China.list 的 aliyun 关键字直连，把真实 IP 交给交易所
+DOMAIN,molor-app-logs-default.ap-southeast-1.log.aliyuncs.com
+DOMAIN,molor-app-performance-project.ap-southeast-1.log.aliyuncs.com
+# 设备风控 SDK，与 MEXC 同一秒启动，此前落在 FINAL 走首页节点，更早还曾被 IP-ASN 规则直连
+DOMAIN-SUFFIX,turingfraud.net
+# 硬编码直连 IP（华为云新加坡），域名规则匹配不到，只能按 IP 命中
+IP-CIDR,119.13.110.238/32,no-resolve
+IP-CIDR,190.92.208.115/32,no-resolve
+
+# —— Bybit ——
+# api3.bybit.biz 后台心跳此前落在别的模块的通用 PROXY 策略下，出口是台湾2而非钉死的节点，与 MEXC 同样需要固定出口
+DOMAIN-SUFFIX,bybit.biz
+DOMAIN-SUFFIX,bybit.com
+DOMAIN-SUFFIX,bybitglobal.com
+# bytick.com 是官方备用 API 域名，bycsi.com 是静态资源/CDN 域名
+DOMAIN-SUFFIX,bytick.com
+DOMAIN-SUFFIX,bycsi.com
+# 各地区站点（bybit.nl、bybit.eu、bybit-tr 等）名字不一，用关键字兜底
+DOMAIN-KEYWORD,bybit

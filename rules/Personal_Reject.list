@@ -1,0 +1,7 @@
+# NAME: Personal_Reject
+# 个人规则中需要屏蔽的域名，配置里引用时策略为 REJECT。
+# 排在其他个人规则之前：smetric.hilton.com 若晚于 Personal_US.list，会先被 hilton.com 后缀带去 US。
+
+# —— 希尔顿 ——
+# smetric 是 Adobe 的埋点采集域，保持屏蔽
+DOMAIN-SUFFIX,smetric.hilton.com
