@@ -1,0 +1,4 @@
+# 含订阅链接或在 App 里改过的本地副本，不进仓库
+*.local.conf
+*.local.plugin
+*.local.list
